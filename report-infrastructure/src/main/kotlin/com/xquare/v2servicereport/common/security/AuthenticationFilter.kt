@@ -14,7 +14,7 @@ class AuthenticationFilter : OncePerRequestFilter() {
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        filterChain: FilterChain
+        filterChain: FilterChain,
     ) {
         val userId: String? = request.getHeader("Request-User-Id")
         val userRole: UserRole? = request.getHeader("Request-User-Role")?.let { UserRole.valueOf(it) }
@@ -25,13 +25,10 @@ class AuthenticationFilter : OncePerRequestFilter() {
             return
         }
 
-        val authorities: MutableCollection<SimpleGrantedAuthority> = ArrayList()
+        val userAuthorityGrants = userAuthorities.map { userAuthority -> SimpleGrantedAuthority(userAuthority) }
+        val userRoleGrant = SimpleGrantedAuthority("ROLE_${userRole.name}")
+        val authorities: Collection<SimpleGrantedAuthority> = userAuthorityGrants.plus(userRoleGrant)
 
-        userAuthorities.map { userAuthority ->
-            authorities.add(SimpleGrantedAuthority(userAuthority))
-        }
-
-        authorities.add(SimpleGrantedAuthority("ROLE_${userRole.name}"))
         val userDetails = User(userId, "", authorities)
         val authentication = UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
         SecurityContextHolder.getContext().authentication = authentication
