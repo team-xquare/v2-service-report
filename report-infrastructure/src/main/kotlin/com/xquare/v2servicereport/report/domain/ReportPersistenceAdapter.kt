@@ -7,12 +7,11 @@ import java.util.UUID
 
 @Adapter
 class ReportPersistenceAdapter(
-    private val reportMapper: ReportMapper,
     private val reportRepository: ReportRepository,
 ) : ReportSpi {
 
     override fun saveReportAndGetReportId(report: Report): UUID {
-        val reportEntity = reportRepository.save(reportMapper.domainToEntity(report))
+        val reportEntity = reportRepository.save(report.toChangeDomainToEntity())
         return reportEntity.id
     }
 }
