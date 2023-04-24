@@ -6,23 +6,29 @@ import com.xquare.v2servicereport.report.Report
 @Mapper
 class ReportMapper {
 
-    fun domainToEntity(report: Report): ReportEntity {
-        return ReportEntity(
-            id = report.id,
-            userId = report.userId,
-            reason = report.reason,
-            category = report.category,
-            createdAt = report.createdAt,
+    fun domainToEntity(report: Report): ReportEntity =
+        report.toChangeDomainToEntity()
+
+    fun entityToDomain(reportEntity: ReportEntity): Report =
+        reportEntity.toChangeEntityToDomain()
+
+    private fun ReportEntity.toChangeEntityToDomain(): Report {
+        return Report(
+            id = this.id,
+            userId = this.id,
+            reason = this.reason,
+            category = this.category,
+            createdAt = this.createdAt
         )
     }
 
-    fun entityToDomain(reportEntity: ReportEntity): Report {
-        return Report(
-            id = reportEntity.id,
-            userId = reportEntity.userId,
-            reason = reportEntity.reason,
-            category = reportEntity.category,
-            createdAt = reportEntity.createdAt,
+    private fun Report.toChangeDomainToEntity(): ReportEntity {
+        return ReportEntity(
+            id = this.id,
+            userId = this.id,
+            reason = this.reason,
+            category = this.category,
+            createdAt = this.createdAt
         )
     }
 }
