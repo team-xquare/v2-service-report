@@ -40,7 +40,7 @@ dependencies {
     kapt("org.springframework.boot:spring-boot-configuration-processor")
 
     // Kotlin JDSL
-    implementation("com.linecorp.kotlin-jdsl:spring-data-kotlin-jdsl-starter:2.2.0.RELEASE")
+    implementation("com.linecorp.kotlin-jdsl:spring-data-kotlin-jdsl-starter:2.0.5.RELEASE")
 
     implementation(project(":report-application"))
 }
