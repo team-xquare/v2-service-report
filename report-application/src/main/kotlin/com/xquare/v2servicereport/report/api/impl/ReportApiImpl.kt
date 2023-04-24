@@ -28,13 +28,13 @@ class ReportApiImpl(
         val reportId = commandReportSpi.saveReportAndGetReportId(report)
 
         if (imageUrls.isNotEmpty()) {
-            imageUrls.map { imageUrl ->
-                val reportImage = ReportImage(
+            val reportImages = imageUrls.map { imageUrl ->
+                ReportImage(
                     imageUrl = imageUrl,
                     reportId = reportId,
                 )
-                commandReportImageSpi.saveReportImage(reportImage)
             }
+            commandReportImageSpi.saveAllReportImage(reportImages)
         }
     }
 }

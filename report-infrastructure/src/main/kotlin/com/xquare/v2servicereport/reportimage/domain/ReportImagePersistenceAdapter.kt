@@ -13,4 +13,8 @@ class ReportImagePersistenceAdapter(
     override fun saveReportImage(reportImage: ReportImage) {
         reportImageRepository.save(reportImageMapper.domainToEntity(reportImage))
     }
+
+    override fun saveAllReportImage(reportImages: List<ReportImage>) {
+        reportImageRepository.saveAll(reportImages.map(reportImageMapper::domainToEntity))
+    }
 }
