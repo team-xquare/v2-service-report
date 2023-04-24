@@ -11,22 +11,28 @@ class ReportImageMapper(
     private val reportRepository: ReportRepository,
 ) {
 
-    fun domainToEntity(reportImage: ReportImage): ReportImageEntity {
-        val reportEntity = reportRepository.findByIdOrNull(reportImage.reportId)
-            ?: throw ReportNotFoundException
+    fun domainToEntity(reportImage: ReportImage): ReportImageEntity =
+        reportImage.changeDomainToEntity()
 
-        return ReportImageEntity(
-            id = reportImage.id,
-            imageUrl = reportImage.imageUrl,
-            reportEntity = reportEntity,
+    fun entityToDomain(reportImageEntity: ReportImageEntity): ReportImage =
+        reportImageEntity.changeEntityToDomain()
+
+    private fun ReportImageEntity.changeEntityToDomain(): ReportImage {
+        return ReportImage(
+            id = this.id,
+            imageUrl = this.imageUrl,
+            reportId = this.reportEntity.id,
         )
     }
 
-    fun entityToDomain(reportImageEntity: ReportImageEntity): ReportImage {
-        return ReportImage(
-            id = reportImageEntity.id,
-            imageUrl = reportImageEntity.imageUrl,
-            reportId = reportImageEntity.reportEntity.id,
+    private fun ReportImage.changeDomainToEntity(): ReportImageEntity {
+        val reportEntity = reportRepository.findByIdOrNull(this.reportId)
+            ?: throw ReportNotFoundException
+
+        return ReportImageEntity(
+            id = this.id,
+            imageUrl = this.imageUrl,
+            reportEntity = reportEntity,
         )
     }
 }
