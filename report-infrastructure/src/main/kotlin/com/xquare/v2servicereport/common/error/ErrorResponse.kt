@@ -1,6 +1,5 @@
 package com.xquare.v2servicereport.common.error
 
-import com.xquare.v2servicereport.common.error.ErrorProperty
 import org.springframework.validation.BindingResult
 import org.springframework.validation.FieldError
 
