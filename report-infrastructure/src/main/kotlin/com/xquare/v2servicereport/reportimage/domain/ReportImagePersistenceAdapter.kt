@@ -16,8 +16,6 @@ class ReportImagePersistenceAdapter(
     }
 
     override fun saveAllReportImage(reportImages: List<ReportImage>) {
-        reportImageRepository.saveAll(reportImages.map {
-            it.toChangeDomainToEntity(reportRepository)
-        })
+        reportImageRepository.saveAll(reportImages.map { it.toChangeDomainToEntity(reportRepository) })
     }
 }
