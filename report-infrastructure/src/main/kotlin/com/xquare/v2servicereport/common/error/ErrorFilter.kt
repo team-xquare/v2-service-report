@@ -37,6 +37,6 @@ class ErrorFilter(
         response.status = errorProperty.status()
         response.characterEncoding = StandardCharsets.UTF_8.name()
         response.contentType = MediaType.APPLICATION_JSON_VALUE
-        response.writer.write(objectMapper.writeValueAsString(ErrorResponse.of(errorProperty)))
+        response.writer.write(objectMapper.writeValueAsString(errorProperty.of()))
     }
 }

@@ -12,9 +12,9 @@ class ErrorHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException::class)
-    protected fun handleBindException(e: BindException): ValidationErrorResponse? = ErrorResponse.of(e)
+    protected fun handleBindException(e: BindException): ValidationErrorResponse? = e.of()
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException::class)
-    protected fun handleMethodArgumentNotValidException(e: MethodArgumentNotValidException): ValidationErrorResponse? = ErrorResponse.of(e)
+    protected fun handleMethodArgumentNotValidException(e: MethodArgumentNotValidException): ValidationErrorResponse? = e.of()
 }
