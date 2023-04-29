@@ -1,20 +1,22 @@
 name: Ktlint-CI
 
-on:
-  push:
-    branches-ignore:
-      - main
+on: [ pull_request ]
 
 jobs:
-  lint:
+  ktlint:
+    name: Check Code Quality
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        java-version: [ 17 ]
 
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
-          java-version: '17'
+          java-version: ${{ matrix.java-version }}
           distribution: 'zulu'
 
       - name: Clone repo
@@ -26,5 +28,5 @@ jobs:
         uses: ScaCap/action-ktlint@master
         with:
           github_token: ${{ secrets.github_token }}
-          reporter: github-pr-review
+          reporter: github-pr-check
           fail_on_error: true
