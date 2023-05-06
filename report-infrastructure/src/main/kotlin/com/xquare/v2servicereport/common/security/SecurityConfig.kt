@@ -23,7 +23,7 @@ class SecurityConfig(
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         http
             .authorizeRequests()
-            .anyRequest().permitAll()
+            .anyRequest().authenticated()
         http
             .apply(FilterConfig(objectMapper))
 
