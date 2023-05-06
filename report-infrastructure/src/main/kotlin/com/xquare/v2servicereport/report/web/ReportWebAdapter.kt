@@ -16,7 +16,7 @@ class ReportWebAdapter(
 ) {
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
+    @PostMapping("/report")
     fun createReport(
         @RequestBody
         @Valid
