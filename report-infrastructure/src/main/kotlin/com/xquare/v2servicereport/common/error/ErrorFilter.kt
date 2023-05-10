@@ -34,7 +34,6 @@ class ErrorFilter(
                 else -> {
                     Sentry.captureException(e)
                     errorToJson(InternalServerErrorException.errorProperty, response)
-                    e.printStackTrace()
                 }
             }
         }
