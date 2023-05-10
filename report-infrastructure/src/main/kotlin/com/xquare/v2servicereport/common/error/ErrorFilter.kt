@@ -2,6 +2,7 @@ package com.xquare.v2servicereport.common.error
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.xquare.v2servicereport.common.exceptions.InternalServerErrorException
+import io.sentry.Sentry
 import org.springframework.http.MediaType
 import org.springframework.web.filter.OncePerRequestFilter
 import java.nio.charset.StandardCharsets
@@ -21,11 +22,17 @@ class ErrorFilter(
         try {
             filterChain.doFilter(request, response)
         } catch (e: BaseException) {
+            Sentry.captureException(e)
             errorToJson(e.errorProperty, response)
         } catch (e: Exception) {
             when (e.cause) {
-                is BaseException -> errorToJson((e.cause as BaseException).errorProperty, response)
+                is BaseException -> {
+                    Sentry.captureException(e)
+                    errorToJson((e.cause as BaseException).errorProperty, response)
+                }
+
                 else -> {
+                    Sentry.captureException(e)
                     errorToJson(InternalServerErrorException.errorProperty, response)
                     e.printStackTrace()
                 }
