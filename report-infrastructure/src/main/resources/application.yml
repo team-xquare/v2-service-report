@@ -33,3 +33,7 @@ spring:
 
   lifecycle:
     timeout-per-shutdown-phase: 20s
+
+sentry:
+  dsn: ${SENTRY_DSN}
+  traces-sample-rate: 1.0

@@ -8,6 +8,8 @@ ARG CLOUD_CONFIG_PASSWORD
 ENV CLOUD_CONFIG_PASSWORD ${CLOUD_CONFIG_PASSWORD}
 ARG PROFILE
 ENV PROFILE ${PROFILE}
+ARG SENTRY_DSN
+ENV SENTRY_DSN ${SENTRY_DSN}
 
 COPY /report-infrastructure/build/libs/*.jar app.jar
 ENTRYPOINT ["java", "-jar", "-Duser.timezone=Asia/Seoul", "/app.jar"]
