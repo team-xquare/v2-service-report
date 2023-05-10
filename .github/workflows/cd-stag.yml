@@ -55,7 +55,6 @@ jobs:
             PROFILE=stag
             CLOUD_CONFIG_USERNAME=${{ secrets.CLOUD_CONFIG_USERNAME }}
             CLOUD_CONFIG_PASSWORD=${{ secrets.CLOUD_CONFIG_PASSWORD }}
-            SENTRY_DSN=${{ secrets.SENTRY_DSN }}
 
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v1
