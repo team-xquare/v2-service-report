@@ -19,7 +19,7 @@ class ReleaseNoteApiImpl(
                 releaseVersion = releaseVersion,
                 featureContent = featureContent,
                 bugFixContent = bugFixContent,
-            )
+            ),
         )
     }
 }
