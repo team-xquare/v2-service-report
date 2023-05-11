@@ -29,7 +29,7 @@ class ReleaseNotePersistenceAdapter(
                     col(ReleaseNoteEntity::releaseVersion),
                     col(ReleaseNoteEntity::featureContent),
                     col(ReleaseNoteEntity::bugFixContent),
-                )
+                ),
             )
             from(entity(ReleaseNoteEntity::class))
             orderBy(col(ReleaseNoteEntity::releaseVersion).desc())
