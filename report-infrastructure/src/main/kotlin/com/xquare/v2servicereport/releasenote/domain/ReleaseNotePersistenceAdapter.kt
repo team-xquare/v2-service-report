@@ -28,7 +28,7 @@ class ReleaseNotePersistenceAdapter(
                     col(ReleaseNoteEntity::id),
                     col(ReleaseNoteEntity::releaseVersion),
                     col(ReleaseNoteEntity::featureContent),
-                    col(ReleaseNoteEntity::bugFixContent)
+                    col(ReleaseNoteEntity::bugFixContent),
                 )
             )
             from(entity(ReleaseNoteEntity::class))

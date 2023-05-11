@@ -10,14 +10,14 @@ import javax.persistence.EntityManager
 
 @Configuration
 class JdslConfig(
-    private val entityManager: EntityManager
+    private val entityManager: EntityManager,
 ) {
 
     @Bean
     fun queryFactory(): QueryFactory {
         return QueryFactoryImpl(
             criteriaQueryCreator = CriteriaQueryCreatorImpl(entityManager),
-            subqueryCreator = SubqueryCreatorImpl()
+            subqueryCreator = SubqueryCreatorImpl(),
         )
     }
 }
