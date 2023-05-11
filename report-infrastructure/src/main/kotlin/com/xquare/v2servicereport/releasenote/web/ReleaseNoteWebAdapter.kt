@@ -2,8 +2,10 @@ package com.xquare.v2servicereport.releasenote.web
 
 import com.xquare.v2servicereport.releasenote.api.ReleaseNoteApi
 import com.xquare.v2servicereport.releasenote.api.dto.request.DomainCreateReleaseNoteRequest
+import com.xquare.v2servicereport.releasenote.api.dto.request.QueryReleaseNoteList
 import com.xquare.v2servicereport.releasenote.web.dto.request.CreateReleaseNoteRequest
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -30,5 +32,10 @@ class ReleaseNoteWebAdapter(
             bugFixContent = request.bugFixContent,
         )
         releaseNoteApi.createReleaseNote(domainCreateReleaseNoteRequest)
+    }
+
+    @GetMapping("/list")
+    fun getReleaseNoteList(): QueryReleaseNoteList {
+        return releaseNoteApi.getReleaseNoteList()
     }
 }
