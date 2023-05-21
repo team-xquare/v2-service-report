@@ -17,25 +17,21 @@ class ErrorFilter(
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        filterChain: FilterChain
+        filterChain: FilterChain,
     ) {
         try {
             filterChain.doFilter(request, response)
-        } catch (e: BaseException) {
-            Sentry.captureException(e)
-            errorToJson(e.errorProperty, response)
         } catch (e: Exception) {
             when (e.cause) {
                 is BaseException -> {
-                    Sentry.captureException(e)
                     errorToJson((e.cause as BaseException).errorProperty, response)
                 }
 
-                else -> {
-                    Sentry.captureException(e)
+                is Exception -> {
                     errorToJson(InternalServerErrorException.errorProperty, response)
                 }
             }
+            Sentry.captureException(e)
         }
     }
 
