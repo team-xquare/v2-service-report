@@ -42,6 +42,10 @@ dependencies {
     // Kotlin JDSL
     implementation("com.linecorp.kotlin-jdsl:spring-data-kotlin-jdsl-starter:2.0.5.RELEASE")
 
+    // Sentry
+    implementation("io.sentry:sentry-spring-boot-starter:6.18.1")
+    implementation("io.sentry:sentry-logback:6.18.1")
+
     implementation(project(":report-application"))
 }
 
