@@ -48,7 +48,7 @@ class SendWebhookAdapter(
             this.addAttachments(
                 SlackAttachment()
                     .setImageUrl(imageUrl)
-                    .setFallback(FALLBACK)
+                    .setFallback(FALLBACK),
             )
         }
     }

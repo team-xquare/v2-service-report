@@ -45,7 +45,7 @@ class ReportApiImpl(
                 reason = reason,
                 category = category.name,
                 imageUrls = imageUrls,
-            )
+            ),
         )
     }
 }
