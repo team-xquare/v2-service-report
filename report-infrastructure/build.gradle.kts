@@ -46,6 +46,9 @@ dependencies {
     implementation("io.sentry:sentry-spring-boot-starter:6.18.1")
     implementation("io.sentry:sentry-logback:6.18.1")
 
+    // Webhook
+    implementation("net.gpedro.integrations.slack:slack-webhook:1.4.0")
+
     implementation(project(":report-application"))
 }
 

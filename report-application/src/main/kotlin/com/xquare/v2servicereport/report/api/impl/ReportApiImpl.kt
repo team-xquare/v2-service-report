@@ -8,12 +8,15 @@ import com.xquare.v2servicereport.report.spi.CommandReportSpi
 import com.xquare.v2servicereport.reportimage.ReportImage
 import com.xquare.v2servicereport.reportimage.spi.CommandReportImageSpi
 import com.xquare.v2servicereport.user.spi.UserSecuritySpi
+import com.xquare.v2servicereport.webhook.SlackReport
+import com.xquare.v2servicereport.webhook.spi.SendWebhookSpi
 
 @DomainService
 class ReportApiImpl(
     private val userSecuritySpi: UserSecuritySpi,
     private val commandReportSpi: CommandReportSpi,
     private val commandReportImageSpi: CommandReportImageSpi,
+    private val sendWebhookSpi: SendWebhookSpi,
 ) : ReportApi {
 
     override fun createReport(domainCreateReportRequest: DomainCreateReportRequest) {
@@ -36,5 +39,13 @@ class ReportApiImpl(
             }
             commandReportImageSpi.saveAllReportImage(reportImages)
         }
+
+        sendWebhookSpi.sendReportMessageToSlack(
+            SlackReport(
+                reason = reason,
+                category = category.name,
+                imageUrls = imageUrls,
+            ),
+        )
     }
 }
