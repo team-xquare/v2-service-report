@@ -32,3 +32,10 @@ fun ErrorProperty.of(): ErrorResponse {
         message = this.message(),
     )
 }
+
+fun IllegalArgumentException.of(): ErrorResponse {
+    return ErrorResponse(
+        status = 400,
+        message = this.message.toString(),
+    )
+}
