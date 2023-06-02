@@ -26,9 +26,12 @@ fun BindingResult.of(): ValidationErrorResponse {
     )
 }
 
-fun ErrorProperty.of(): ErrorResponse {
-    return ErrorResponse(
-        status = this.status(),
-        message = this.message(),
-    )
-}
+fun ErrorProperty.of() = ErrorResponse(
+    status = this.status(),
+    message = this.message(),
+)
+
+fun IllegalArgumentException.of() = ErrorResponse(
+    status = 400,
+    message = this.message.toString(),
+)
