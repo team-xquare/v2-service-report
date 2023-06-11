@@ -14,11 +14,11 @@ class SendWebhookAdapter(
 ) : SendWebhookSpi {
 
     companion object {
-        const val REPORT_MESSAGE = "버그 제보 발생"
-        const val REPORT_REASON = "이유"
-        const val REPORT_CATEGORY = "카테고리"
-        const val MESSAGE_COLOR = "#e62e2e"
-        const val FALLBACK = "Required plain-text summary of the attachment"
+        private const val REPORT_MESSAGE = "버그 제보 발생"
+        private const val REPORT_REASON = "이유"
+        private const val REPORT_CATEGORY = "카테고리"
+        private const val MESSAGE_COLOR = "#e62e2e"
+        private const val FALLBACK = "Required plain-text summary of the attachment"
     }
 
     override fun sendReportMessageToSlack(slackReport: SlackReport) {
