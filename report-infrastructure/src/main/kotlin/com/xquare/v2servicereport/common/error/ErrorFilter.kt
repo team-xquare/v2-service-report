@@ -36,9 +36,11 @@ class ErrorFilter(
     }
 
     private fun errorToJson(errorProperty: ErrorProperty, response: HttpServletResponse) {
-        response.status = errorProperty.status()
-        response.characterEncoding = StandardCharsets.UTF_8.name()
-        response.contentType = MediaType.APPLICATION_JSON_VALUE
-        response.writer.write(objectMapper.writeValueAsString(errorProperty.of()))
+        response.apply {
+            status = errorProperty.status()
+            characterEncoding = StandardCharsets.UTF_8.name()
+            contentType = MediaType.APPLICATION_JSON_VALUE
+            writer.write(objectMapper.writeValueAsString(errorProperty.of()))
+        }
     }
 }
