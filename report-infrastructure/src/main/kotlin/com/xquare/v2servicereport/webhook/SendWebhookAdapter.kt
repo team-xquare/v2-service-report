@@ -22,14 +22,12 @@ class SendWebhookAdapter(
     }
 
     override fun sendReportMessageToSlack(slackReport: SlackReport) {
-        val slackMessage = SlackMessage("")
-        val slackAttachment = SlackAttachment()
         val errorReason = createReportReason(slackReport.reason, slackReport.category)
-
-        slackAttachment.createSlackAttachment(errorReason)
-        slackMessage.addAttachments(slackAttachment)
-        slackMessage.createSlackImage(slackReport.imageUrls)
-
+        val slackAttachment = SlackAttachment().apply { createSlackAttachment(errorReason) }
+        val slackMessage = SlackMessage("").apply {
+            addAttachments(slackAttachment)
+            createSlackImage(slackReport.imageUrls)
+        }
         SlackApi(webhookUrl).call(slackMessage)
     }
 
@@ -37,18 +35,21 @@ class SendWebhookAdapter(
         "$REPORT_REASON : $reason\n$REPORT_CATEGORY : $category"
 
     private fun SlackAttachment.createSlackAttachment(errorReason: String) {
-        this.setTitle(REPORT_MESSAGE)
-        this.setText(errorReason)
-        this.setColor(MESSAGE_COLOR)
-        this.setFallback(FALLBACK)
+        this.apply {
+            setTitle(REPORT_MESSAGE)
+            setText(errorReason)
+            setColor(MESSAGE_COLOR)
+            setFallback(FALLBACK)
+        }
     }
 
     private fun SlackMessage.createSlackImage(imageUrls: List<String>) {
         imageUrls.map { imageUrl ->
             this.addAttachments(
-                SlackAttachment()
-                    .setImageUrl(imageUrl)
-                    .setFallback(FALLBACK),
+                SlackAttachment().apply {
+                    setImageUrl(imageUrl)
+                    setFallback(FALLBACK)
+                }
             )
         }
     }
