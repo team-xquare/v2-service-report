@@ -30,7 +30,7 @@ class ReportApiImpl(
                 userId = userId,
                 reason = reason,
                 category = category,
-            )
+            ),
         )
 
         if (imageUrls.isNotEmpty()) {
