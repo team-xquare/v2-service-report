@@ -43,7 +43,7 @@ class ReportApiImpl(
             commandReportImageSpi.saveAllReportImage(reportImages)
         }
 
-        sendWebhookSpi.sendReportMessageToSlack(
+        sendWebhookSpi.sendWebhookEvent(
             SlackReport(
                 userName = userSpi.getUserByUserId(userId).name,
                 reason = reason,
