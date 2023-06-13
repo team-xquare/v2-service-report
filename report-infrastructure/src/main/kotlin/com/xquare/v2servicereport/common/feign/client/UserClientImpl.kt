@@ -19,13 +19,10 @@ class UserClientImpl(
 
         return User(
             id = user.id,
-            accountId = user.accountId,
-            password = user.password,
             name = user.name,
             grade = user.grade,
             classNum = user.classNum,
             num = user.num,
-            birthDay = user.birthDay,
             profileFileName = user.profileFileName,
         )
     }
