@@ -8,11 +8,13 @@ import com.xquare.v2servicereport.report.spi.CommandReportSpi
 import com.xquare.v2servicereport.reportimage.ReportImage
 import com.xquare.v2servicereport.reportimage.spi.CommandReportImageSpi
 import com.xquare.v2servicereport.user.spi.UserSecuritySpi
+import com.xquare.v2servicereport.user.spi.UserSpi
 import com.xquare.v2servicereport.webhook.SlackReport
 import com.xquare.v2servicereport.webhook.spi.SendWebhookSpi
 
 @DomainService
 class ReportApiImpl(
+    private val userSpi: UserSpi,
     private val userSecuritySpi: UserSecuritySpi,
     private val commandReportSpi: CommandReportSpi,
     private val commandReportImageSpi: CommandReportImageSpi,
@@ -21,14 +23,15 @@ class ReportApiImpl(
 
     override fun createReport(domainCreateReportRequest: DomainCreateReportRequest) {
         val (reason, category, imageUrls) = domainCreateReportRequest
+        val userId = userSecuritySpi.getCurrentUserId()
 
-        val report = Report(
-            userId = userSecuritySpi.getCurrentUserId(),
-            reason = reason,
-            category = category,
+        val reportId = commandReportSpi.saveReportAndGetReportId(
+            Report(
+                userId = userId,
+                reason = reason,
+                category = category,
+            ),
         )
-
-        val reportId = commandReportSpi.saveReportAndGetReportId(report)
 
         if (imageUrls.isNotEmpty()) {
             val reportImages = imageUrls.map { imageUrl ->
@@ -42,6 +45,7 @@ class ReportApiImpl(
 
         sendWebhookSpi.sendReportMessageToSlack(
             SlackReport(
+                userName = userSpi.getUserByUserId(userId).name,
                 reason = reason,
                 category = category.name,
                 imageUrls = imageUrls,
