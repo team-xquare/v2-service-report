@@ -40,7 +40,7 @@ class ReportApiImpl(
                         imageUrl = imageUrl,
                         reportId = reportId,
                     )
-                }
+                },
             )
         }
 
