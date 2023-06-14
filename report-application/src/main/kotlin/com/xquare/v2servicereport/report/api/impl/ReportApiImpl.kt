@@ -44,7 +44,7 @@ class ReportApiImpl(
             )
         }
 
-        sendWebhookSpi.sendWebhookEvent(
+        sendWebhookSpi.sendReportMessageToSlack(
             SlackReport(
                 userName = userSpi.getUserByUserId(userId).name,
                 reason = reason,
