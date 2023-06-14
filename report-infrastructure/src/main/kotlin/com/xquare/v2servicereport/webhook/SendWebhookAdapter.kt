@@ -1,18 +1,18 @@
 package com.xquare.v2servicereport.webhook
 
+import com.xquare.v2servicereport.webhook.spi.SendWebhookSpi
 import net.gpedro.integrations.slack.SlackApi
 import net.gpedro.integrations.slack.SlackAttachment
 import net.gpedro.integrations.slack.SlackMessage
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.context.event.EventListener
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 
 @Component
-class SendWebhookEventHandler(
+class SendWebhookAdapter(
     @Value("\${webhook.url}")
     private val webhookUrl: String,
-) {
+) : SendWebhookSpi {
 
     companion object {
         private const val REPORT_MESSAGE = "버그 제보 발생"
@@ -24,8 +24,7 @@ class SendWebhookEventHandler(
     }
 
     @Async
-    @EventListener
-    fun sendReportMessageToSlack(slackReport: SlackReport) {
+    override fun sendReportMessageToSlack(slackReport: SlackReport) {
         val errorReason = createReportReason(slackReport.reason, slackReport.category, slackReport.userName)
         val slackAttachment = SlackAttachment().apply { createSlackAttachment(errorReason) }
         val slackMessage = SlackMessage("").apply {
