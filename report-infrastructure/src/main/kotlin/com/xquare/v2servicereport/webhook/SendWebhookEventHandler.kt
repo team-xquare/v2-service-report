@@ -38,23 +38,20 @@ class SendWebhookEventHandler(
     private fun createReportReason(reason: String, category: String, userName: String) =
         "$REPORT_USER_NAME : $userName\n$REPORT_REASON : $reason\n$REPORT_CATEGORY : $category"
 
-    private fun SlackAttachment.createSlackAttachment(errorReason: String) {
-        this.apply {
-            setTitle(REPORT_MESSAGE)
-            setText(errorReason)
-            setColor(MESSAGE_COLOR)
-            setFallback(FALLBACK)
-        }
+    private fun SlackMessage.createSlackImage(imageUrls: List<String>) {
+        imageUrls.map { imageUrl -> this.addAttachments(SlackAttachment().createSlackImageAttachment(imageUrl)) }
     }
 
-    private fun SlackMessage.createSlackImage(imageUrls: List<String>) {
-        imageUrls.map { imageUrl ->
-            this.addAttachments(
-                SlackAttachment().apply {
-                    setImageUrl(imageUrl)
-                    setFallback(FALLBACK)
-                },
-            )
-        }
+    private fun SlackAttachment.createSlackAttachment(errorReason: String) = this.apply {
+        setTitle(REPORT_MESSAGE)
+        setText(errorReason)
+        setFallback(FALLBACK)
+        setColor(MESSAGE_COLOR)
+    }
+
+    private fun SlackAttachment.createSlackImageAttachment(imageUrl: String) = this.apply {
+        setImageUrl(imageUrl)
+        setFallback(FALLBACK)
+        setColor(MESSAGE_COLOR)
     }
 }
