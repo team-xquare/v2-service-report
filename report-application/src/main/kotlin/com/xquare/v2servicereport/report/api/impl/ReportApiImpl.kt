@@ -34,13 +34,14 @@ class ReportApiImpl(
         )
 
         if (imageUrls.isNotEmpty()) {
-            val reportImages = imageUrls.map { imageUrl ->
-                ReportImage(
-                    imageUrl = imageUrl,
-                    reportId = reportId,
-                )
-            }
-            commandReportImageSpi.saveAllReportImage(reportImages)
+            commandReportImageSpi.saveAllReportImage(
+                imageUrls.map { imageUrl ->
+                    ReportImage(
+                        imageUrl = imageUrl,
+                        reportId = reportId,
+                    )
+                },
+            )
         }
 
         sendWebhookSpi.sendWebhookEvent(
