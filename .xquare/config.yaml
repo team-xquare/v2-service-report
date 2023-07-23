@@ -1,0 +1,4 @@
+config:
+  name: report
+  prefix: /reports
+  service_type: be
