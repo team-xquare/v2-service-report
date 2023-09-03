@@ -25,8 +25,7 @@ class SendWebhookAdapter(
 
     @Async
     override fun sendReportMessageToSlack(slackReport: SlackReport) {
-        val errorReason = createReportReason(slackReport.reason, slackReport.category, slackReport.userName)
-        val slackAttachment = SlackAttachment().apply { createSlackAttachment(errorReason) }
+        val slackAttachment = SlackAttachment().apply { createSlackAttachment(getReportReason(slackReport)) }
         val slackMessage = SlackMessage("").apply {
             addAttachments(slackAttachment)
             createSlackImage(slackReport.imageUrls)
@@ -34,8 +33,8 @@ class SendWebhookAdapter(
         SlackApi(webhookUrl).call(slackMessage)
     }
 
-    private fun createReportReason(reason: String, category: String, userName: String) =
-        "$REPORT_USER_NAME : $userName\n$REPORT_REASON : $reason\n$REPORT_CATEGORY : $category"
+    private fun getReportReason(slackReport: SlackReport) =
+        "$REPORT_USER_NAME : ${slackReport.userName}\n$REPORT_REASON : ${slackReport.reason}\n$REPORT_CATEGORY : ${slackReport.category}"
 
     private fun SlackMessage.createSlackImage(imageUrls: List<String>) {
         imageUrls.map { imageUrl -> this.addAttachments(SlackAttachment().createSlackImageAttachment(imageUrl)) }

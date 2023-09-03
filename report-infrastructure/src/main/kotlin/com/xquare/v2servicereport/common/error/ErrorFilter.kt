@@ -29,9 +29,9 @@ class ErrorFilter(
 
                 is Exception -> {
                     errorToJson(InternalServerErrorException.errorProperty, response)
+                    Sentry.captureException(e)
                 }
             }
-            Sentry.captureException(e)
         }
     }
 
