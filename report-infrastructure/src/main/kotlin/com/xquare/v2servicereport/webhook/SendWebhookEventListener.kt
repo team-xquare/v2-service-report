@@ -1,18 +1,20 @@
 package com.xquare.v2servicereport.webhook
 
-import com.xquare.v2servicereport.webhook.spi.SendWebhookSpi
 import net.gpedro.integrations.slack.SlackApi
 import net.gpedro.integrations.slack.SlackAttachment
 import net.gpedro.integrations.slack.SlackMessage
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.event.EventListener
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
+import org.springframework.transaction.event.TransactionPhase
+import org.springframework.transaction.event.TransactionalEventListener
 
 @Component
-class SendWebhookAdapter(
+class SendWebhookEventListener(
     @Value("\${webhook.url}")
     private val webhookUrl: String,
-) : SendWebhookSpi {
+) {
 
     companion object {
         private const val REPORT_MESSAGE = "버그 제보 발생"
@@ -20,12 +22,15 @@ class SendWebhookAdapter(
         private const val REPORT_CATEGORY = "카테고리"
         private const val REPORT_USER_NAME = "제보자"
         private const val MESSAGE_COLOR = "#e62e2e"
-        private const val FALLBACK = "Required plain-text summary of the attachment"
+        private const val FALLBACK = "새로운 버그제보가 도착했습니다."
     }
 
     @Async
-    override fun sendReportMessageToSlack(slackReport: SlackReport) {
-        val slackAttachment = SlackAttachment().apply { createSlackAttachment(getReportReason(slackReport)) }
+    @EventListener
+    fun sendReportMessageToSlack(slackReport: SlackReport) {
+        val slackAttachment = SlackAttachment().apply {
+            createSlackAttachment(getReportReason(slackReport))
+        }
         val slackMessage = SlackMessage("").apply {
             addAttachments(slackAttachment)
             createSlackImage(slackReport.imageUrls)
