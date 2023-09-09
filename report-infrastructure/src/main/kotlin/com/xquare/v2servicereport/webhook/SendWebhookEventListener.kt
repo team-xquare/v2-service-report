@@ -26,9 +26,7 @@ class SendWebhookEventListener(
     @Async
     @EventListener
     fun sendReportMessageToSlack(slackReport: SlackReport) {
-        val slackAttachment = SlackAttachment().apply {
-            createSlackAttachment(getReportReason(slackReport))
-        }
+        val slackAttachment = SlackAttachment().apply { createSlackAttachment(getReportReason(slackReport)) }
         val slackMessage = SlackMessage("").apply {
             addAttachments(slackAttachment)
             createSlackImage(slackReport.imageUrls)
