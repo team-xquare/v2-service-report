@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component
 class SendWebhookEventPublisher(
     private val applicationEventPublisher: ApplicationEventPublisher,
 ) : SendWebhookSpi {
-
     override fun sendReportMessageToSlack(slackReport: SlackReport) {
         applicationEventPublisher.publishEvent(slackReport)
     }
